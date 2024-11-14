@@ -1,9 +1,23 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { CustomLogger } from "retack-sdk-app-observer";
 
-import './index.css'
-import App from './App'
+import './index.css';
+import App from './App';
 
-const root = ReactDOM.createRoot(document.getElementById('root')!)
+// Initialize the Retack SDK
+const envKey = "Az_HeaKWLmFpXl7X4U6GynzR";
+const appVersion = "1.0.4";
 
-root.render(<App />)
+try {
+    CustomLogger.init(envKey, appVersion);
+} catch (error) {
+    console.error("Error initializing CustomLogger:", error);
+}
+
+// Render the application
+const rootElement = document.getElementById('root');
+if (rootElement) {
+    const root = ReactDOM.createRoot(rootElement);
+    root.render(<App />);
+}

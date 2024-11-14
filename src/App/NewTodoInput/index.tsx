@@ -3,9 +3,22 @@ import { useRecoilState } from 'recoil'
 
 import type { AppState, Todo } from '../../dataStructure'
 import { recoilState } from '../../dataStructure'
-import { UUID } from '../../functions'
+
 
 import { Layout } from './style'
+
+import { CustomLogger } from "retack-sdk-app-observer";
+
+// Initialize the Retack SDK
+const envKey = "Az_HeaKWLmFpXl7X4U6GynzR";
+const appVersion = "1.0.4";
+
+
+try {
+  CustomLogger.init(envKey, appVersion);
+} catch (initError) {
+  console.error("Error initializing CustomLogger:", initError);
+}
 
 const NewTodoTextInput: React.FC = () => {
   const [appState, setAppState] = useRecoilState<AppState>(recoilState)
@@ -29,6 +42,16 @@ const NewTodoTextInput: React.FC = () => {
       textInput.current.value = ''
     }
   }
+
+  try {
+    // Application code
+    // Example: Intentionally throw an error to test the SDK
+    throw new Error("Test error");
+  } catch (error) {
+    // Manually report the error after casting it to Error
+    CustomLogger.logError(error as Error);
+  }
+
 
   return (
     <Layout>
